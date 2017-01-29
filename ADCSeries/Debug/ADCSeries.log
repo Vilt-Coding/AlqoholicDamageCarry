@@ -1,0 +1,4 @@
+﻿  ADCSeries.cpp
+c:\users\billy\documents\github\adcseries\adcseries\vayne.h(108): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\ADCSeries\Debug\ADCSeries.dll
+  ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\ADCSeries\Debug\ADCSeries.pdb (Full PDB)
