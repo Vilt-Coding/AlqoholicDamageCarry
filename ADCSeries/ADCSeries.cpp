@@ -2,6 +2,7 @@
 #include "Vayne.h"
 #include "Kalista.h"
 #include "BaseChampion.h"
+#include "Corki.h"
 
 PluginSetup("ADCSeries");
 
@@ -81,6 +82,10 @@ public:
 		{
 			AlqoholicKalista().Combo();
 		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+		{
+			AlqoholicKalista().Farm();
+		}
 	}
 
 	void OnGapCloser(GapCloserSpell const& Args) override
@@ -91,6 +96,48 @@ public:
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
 		AlqoholicKalista().QAfterAttack(Source, Target);
+	}
+};
+
+class Corki : public IChampion
+{
+public:
+	void OnLoad() override
+	{
+		AlqoholicCorki().DrawMenu();
+		AlqoholicCorki().LoadSpells();
+	}
+	void OnRender() override
+	{
+		AlqoholicCorki().Draw();
+	}
+
+	void OnGameUpdate() override
+	{
+		AlqoholicCorki().Automatic();
+
+		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			AlqoholicCorki().Combo();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+		{
+			AlqoholicCorki().Harass();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+		{
+			AlqoholicCorki().Farm();
+		}
+	}
+
+	void OnGapCloser(GapCloserSpell const& Args) override
+	{
+
+	}
+
+	void AfterAttack(IUnit* Source, IUnit* Target) override
+	{
+
 	}
 };
 
@@ -124,6 +171,8 @@ void LoadChampion()
 		pChampion = new Vayne;
 	else if (szChampion == "Kalista")
 		pChampion = new Kalista;
+	else if (szChampion == "Corki")
+		pChampion = new Corki;
 	else
 	{
 		GGame->PrintChat("Champion not supported!");

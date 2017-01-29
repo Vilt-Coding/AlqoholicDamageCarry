@@ -44,5 +44,8 @@
     <ClInclude Include="BaseChampion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Corki.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
