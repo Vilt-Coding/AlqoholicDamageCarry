@@ -28,6 +28,7 @@ IMenuOption* HarassQ;
 IMenuOption* HarassW;
 IMenuOption* HarassE;
 IMenuOption* HarassR;
+IMenuOption* HarassExQ;
 IMenuOption* HarassEStacks;
 IMenuOption* HarassMana;
 
@@ -36,12 +37,14 @@ IMenuOption* FarmW;
 IMenuOption* FarmE;
 IMenuOption* FarmR;
 IMenuOption* FarmQMinions;
+IMenuOption* FarmWMinions;
 IMenuOption* FarmEMinions;
 IMenuOption* FarmEMonsters; //Baron Dragon
 IMenuOption* FarmMana;
 
 IMenuOption* AutoEKillable;
 IMenuOption* MiscSheen;
+IMenuOption* MiscPassive;
 IMenuOption* KSQ;
 IMenuOption* KSW;
 IMenuOption* KSE;
@@ -63,3 +66,5 @@ IMenuOption* AutoE;
 IMenuOption* EGapCloser;
 IMenuOption* AutoR;
 IMenuOption* AutoREnemies;
+
+bool HasPassive = false;

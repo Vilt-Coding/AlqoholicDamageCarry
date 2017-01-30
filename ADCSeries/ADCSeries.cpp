@@ -3,6 +3,7 @@
 #include "Kalista.h"
 #include "BaseChampion.h"
 #include "Corki.h"
+#include "Lucian.h"
 
 PluginSetup("ADCSeries");
 
@@ -141,6 +142,51 @@ public:
 	}
 };
 
+class Lucian : public IChampion
+{
+public:
+	void OnLoad() override
+	{
+		AlqoholicLucian().DrawMenu();
+		AlqoholicLucian().LoadSpells();
+	}
+	void OnRender() override
+	{
+		AlqoholicLucian().Draw();
+	}
+
+	void OnGameUpdate() override
+	{
+		//ERRROR
+
+		AlqoholicLucian().Automatic();
+		AlqoholicLucian().CheckPassive();
+
+		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			AlqoholicLucian().Combo();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+		{
+			AlqoholicLucian().Harass();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+		{
+			AlqoholicLucian().Farm();
+		}
+	}
+
+	void OnGapCloser(GapCloserSpell const& Args) override
+	{
+
+	}
+
+	void AfterAttack(IUnit* Source, IUnit* Target) override
+	{
+		AlqoholicLucian().EReset();
+	}
+};
+
 IChampion* pChampion = nullptr;
 
 PLUGIN_EVENT(void) OnRender()
@@ -173,6 +219,8 @@ void LoadChampion()
 		pChampion = new Kalista;
 	else if (szChampion == "Corki")
 		pChampion = new Corki;
+	else if (szChampion == "Lucian")
+		pChampion = new Lucian;
 	else
 	{
 		GGame->PrintChat("Champion not supported!");

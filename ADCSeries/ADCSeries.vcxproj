@@ -156,6 +156,7 @@
     <ClInclude Include="Corki.h" />
     <ClInclude Include="Kalista.h" />
     <ClInclude Include="LPPConstants.h" />
+    <ClInclude Include="Lucian.h" />
     <ClInclude Include="PluginData.h" />
     <ClInclude Include="PluginSDK.h" />
     <ClInclude Include="Vayne.h" />
