@@ -22,6 +22,7 @@ public:
 
 		FarmMenu = MainMenu->AddMenu("Farm Settings");
 		FarmQ = FarmMenu->CheckBox("Use Q", true);
+		FarmW = FarmMenu->CheckBox("Use W", false);
 		FarmWMinions = FarmMenu->AddInteger("Min. W Minions", 1, 6, 2);
 		FarmMana = FarmMenu->AddFloat("Min. Mana", 0, 100, 40);
 
@@ -41,8 +42,9 @@ public:
 	void LoadSpells()
 	{
 		Q = GPluginSDK->CreateSpell2(kSlotQ, kTargetCast, false, true, kCollidesWithNothing);
+		Q->SetSkillshot(0.2f, 50.f, 1600.f, 675.f);
 		W = GPluginSDK->CreateSpell2(kSlotW, kLineCast, true, true, kCollidesWithMinions);
-		W->SetSkillshot(0.3f, 80.f, 1600.f, 1200.f);
+		W->SetSkillshot(0.3f, 80.f, 1600.f, 1000.f);
 		E = GPluginSDK->CreateSpell2(kSlotE, kLineCast, false, false, kCollidesWithNothing);
 		R = GPluginSDK->CreateSpell2(kSlotR, kLineCast, true, false, kCollidesWithMinions);
 		R->SetSkillshot(0.2f, 110.f, 2500.f, 1400.f);
@@ -65,7 +67,7 @@ public:
 			if (DrawR->Enabled()) { GRender->DrawOutlinedCircle(GEntityList->Player()->GetPosition(), Vec4(255, 255, 255, 255), R->Range()); }
 		}
 
-		std::array<Vec3, 1> w2s;
+		/*std::array<Vec3, 1> w2s;
 		GGame->Projection(GEntityList->Player()->GetPosition(), &w2s[0]);
 		if (HasPassive == true)
 		{
@@ -74,7 +76,7 @@ public:
 		else
 		{
 			GRender->DrawTextW(Vec2(w2s[0].x - 80, w2s[0].y + 50), Vec4(255, 255, 0, 0), "DOES NOT HAVE PASSIVE");
-		}
+		}*/
 	}
 
 	void CheckPassive()
@@ -99,7 +101,6 @@ public:
 				{
 					if (enemy->GetHealth() < GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotQ))
 					{
-						GGame->PrintChat("KSING WITH Q");
 						Q->CastOnTarget(enemy);
 					}
 				}
@@ -112,7 +113,6 @@ public:
 					{
 						if (GPrediction->GetCollisionFlagsForPoint(enemy->GetPosition()) == 0)
 						{
-							GGame->PrintChat("KSING WITH R");
 							R->CastOnTarget(enemy, kHitChanceHigh);
 						}
 					}
@@ -121,31 +121,36 @@ public:
 		}
 	}
 
+	void QReset()
+	{
+			if (ComboQ->Enabled() && Q->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+			{
+				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
+				Q->CastOnTarget(target, kHitChanceHigh);
+			}
+	}
+	
+	void WReset()
+	{
+			if (ComboW->Enabled() && W->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+			{
+				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
+				W->CastOnTarget(target, kHitChanceHigh);
+			}
+	}
+
 	void EReset()
 	{
-		if (!MiscPassive->Enabled() || HasPassive == false)
-		{
 			if (ComboE->Enabled() && E->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
 			{
 				E->CastOnPosition(GGame->CursorPosition());
 			}
-		}
 	}
 
 	void Combo()
 	{
 		if (!MiscPassive->Enabled() || HasPassive == false)
 		{
-			if (ComboQ->Enabled() && Q->IsReady())
-			{
-				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
-				Q->CastOnTarget(target, kHitChanceHigh);
-			}
-			if (ComboW->Enabled() && W->IsReady())
-			{
-				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
-				Q->CastOnTarget(target, kHitChanceHigh);
-			}
 			if (ComboR->Enabled() && R->IsReady())
 			{
 				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, R->Range());
@@ -180,7 +185,7 @@ public:
 	{
 		if (!MiscPassive->Enabled() || HasPassive == false)
 		{
-			if ((FarmQ->Enabled() || FarmW->Enabled()) && GEntityList->Player()->ManaPercent() >= FarmMana->GetFloat())
+			if (GEntityList->Player()->ManaPercent() >= FarmMana->GetFloat())
 			{
 				for (auto minion : GEntityList->GetAllMinions(false, true, false))
 				{
@@ -188,13 +193,7 @@ public:
 					{
 						if (FarmW->Enabled() && W->IsReady())
 						{
-							Vec3 pos;
-							int hit;
-							GPrediction->FindBestCastPosition(W->Range(), W->Radius(), true, true, false, pos, hit);
-							if (hit >= FarmWMinions->GetInteger())
-							{
-								W->CastOnPosition(pos);
-							}
+							W->CastOnTarget(minion, kHitChanceHigh);
 						}
 						if (FarmQ->Enabled() && Q->IsReady())
 						{

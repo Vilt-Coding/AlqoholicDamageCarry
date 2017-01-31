@@ -184,6 +184,8 @@ public:
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
 		AlqoholicLucian().EReset();
+		AlqoholicLucian().QReset();
+		AlqoholicLucian().WReset();
 	}
 };
 
