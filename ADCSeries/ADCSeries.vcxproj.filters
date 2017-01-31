@@ -50,5 +50,8 @@
     <ClInclude Include="Lucian.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Jinx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

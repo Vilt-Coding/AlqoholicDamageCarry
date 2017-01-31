@@ -4,6 +4,7 @@
 #include "BaseChampion.h"
 #include "Corki.h"
 #include "Lucian.h"
+#include "Jinx.h"
 
 PluginSetup("ADCSeries");
 
@@ -188,6 +189,49 @@ public:
 		AlqoholicLucian().WReset();
 	}
 };
+
+//class Jinx : public IChampion
+//{
+//public:
+//	void OnLoad() override
+//	{
+//		AlqoholicJinx().DrawMenu();
+//		AlqoholicJinx().LoadSpells();
+//	}
+//	void OnRender() override
+//	{
+//		AlqoholicJinx().Draw();
+//	}
+//
+//	void OnGameUpdate() override
+//	{
+//		AlqoholicJinx().Automatic();
+//		AlqoholicJinx().CheckPassive();
+//
+//		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+//		{
+//			AlqoholicJinx().Combo();
+//		}
+//		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+//		{
+//			AlqoholicJinx().Harass();
+//		}
+//		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+//		{
+//			AlqoholicJinx().Farm();
+//		}
+//	}
+//
+//	void OnGapCloser(GapCloserSpell const& Args) override
+//	{
+//		AlqoholicJinx().AntiGapE(Args);
+//	}
+//
+//	void AfterAttack(IUnit* Source, IUnit* Target) override
+//	{
+//
+//	}
+//};
 
 IChampion* pChampion = nullptr;
 

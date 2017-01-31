@@ -16,7 +16,7 @@ public:
 
 		HarassMenu = MainMenu->AddMenu("Harass Settings");
 		HarassQ = HarassMenu->CheckBox("Use Q", true);
-		HarassE = HarassMenu->CheckBox("Use R", true);
+		HarassR = HarassMenu->CheckBox("Use R", true);
 		HarassMana = HarassMenu->AddFloat("Min. Mana", 0, 100, 60);
 
 		FarmMenu = MainMenu->AddMenu("Farm Settings");
@@ -41,7 +41,7 @@ public:
 	void LoadSpells()
 	{
 		Q = GPluginSDK->CreateSpell2(kSlotQ, kCircleCast, true, true, kCollidesWithYasuoWall);
-		Q->SetSkillshot(0.3f, 200.f, 1000.f, 825.f);
+		Q->SetSkillshot(0.5f, 200.f, 1000.f, 825.f);
 		W = GPluginSDK->CreateSpell2(kSlotW, kLineCast, false, false, kCollidesWithNothing);
 		E = GPluginSDK->CreateSpell2(kSlotE, kConeCast, false, true, kCollidesWithYasuoWall);
 		R = GPluginSDK->CreateSpell2(kSlotR, kLineCast, true, true, kCollidesWithMinions);
@@ -108,8 +108,7 @@ public:
 			}
 			if (ComboE->Enabled() && E->IsReady())
 			{
-				auto eTarget = GTargetSelector->FindTarget(ClosestToCursorPriority, SpellDamage, E->Range());
-				E->CastOnTarget(eTarget, kHitChanceLow);
+				E->CastOnPlayer();
 			}
 			if (ComboR->Enabled() && R->IsReady())
 			{
@@ -121,18 +120,16 @@ public:
 
 	void Harass()
 	{
-		auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
 
 		if (HarassQ->Enabled() && Q->IsReady())
 		{
+			auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, Q->Range());
 			Q->CastOnTarget(target, kHitChanceHigh);
 		}
 		if (HarassR->Enabled() && R->IsReady())
 		{
-			if (GPrediction->GetCollisionFlagsForPoint(target->GetPosition()) == 0)
-			{
-				R->CastOnTarget(target, kHitChanceHigh);
-			}
+			auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, R->Range());
+			R->CastOnTarget(target, kHitChanceHigh);
 		}
 	}
 

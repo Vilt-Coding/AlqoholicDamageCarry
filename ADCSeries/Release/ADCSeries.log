@@ -1,10 +1,9 @@
 ﻿  ADCSeries.cpp
 c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Vayne.h(87): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  PluginSDK.cpp
      Creating library C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib and object C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.exp
   Generating code
-  8 of 216 functions ( 3.7%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+  All 216 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.dll
   ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.pdb (Full PDB)

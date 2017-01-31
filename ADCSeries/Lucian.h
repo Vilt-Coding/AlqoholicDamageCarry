@@ -66,17 +66,6 @@ public:
 			if (DrawE->Enabled()) { GRender->DrawOutlinedCircle(GEntityList->Player()->GetPosition(), Vec4(0, 0, 255, 255), E->Range()); }
 			if (DrawR->Enabled()) { GRender->DrawOutlinedCircle(GEntityList->Player()->GetPosition(), Vec4(255, 255, 255, 255), R->Range()); }
 		}
-
-		/*std::array<Vec3, 1> w2s;
-		GGame->Projection(GEntityList->Player()->GetPosition(), &w2s[0]);
-		if (HasPassive == true)
-		{
-			GRender->DrawTextW(Vec2(w2s[0].x - 80, w2s[0].y + 50), Vec4(255, 255, 0, 0), "HAS PASSIVE");
-		}
-		else
-		{
-			GRender->DrawTextW(Vec2(w2s[0].x - 80, w2s[0].y + 50), Vec4(255, 255, 0, 0), "DOES NOT HAVE PASSIVE");
-		}*/
 	}
 
 	void CheckPassive()
