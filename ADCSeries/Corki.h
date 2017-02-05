@@ -108,7 +108,9 @@ public:
 			}
 			if (ComboE->Enabled() && E->IsReady())
 			{
-				E->CastOnPlayer();
+				auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, E->Range());
+				if (target != nullptr && GEntityList->Player()->IsValidTarget(target, 500) && (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() < 500)
+					E->CastOnPlayer();
 			}
 			if (ComboR->Enabled() && R->IsReady())
 			{
