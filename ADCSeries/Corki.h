@@ -99,7 +99,7 @@ public:
 
 	void Combo()
 	{
-		if (!MiscSheen->Enabled() && !GEntityList->Player()->HasBuff("sheen"))
+		if (!MiscSheen->Enabled() || !GEntityList->Player()->HasBuff("sheen"))
 		{
 			if (ComboQ->Enabled() && Q->IsReady())
 			{

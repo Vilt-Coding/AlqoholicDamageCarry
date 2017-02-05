@@ -49,6 +49,8 @@ IMenuOption* KSQ;
 IMenuOption* KSW;
 IMenuOption* KSE;
 IMenuOption* KSR;
+IMenuOption* KSRMinRange;
+IMenuOption* KSRMaxRange;
 IMenuOption* MiscEDamage; //E Damage Reduction
 IMenuOption* MiscR;
 IMenuOption* MiscRSave; //Ally Saving

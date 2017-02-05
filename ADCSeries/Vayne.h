@@ -132,7 +132,8 @@ public:
 		if (Args.Sender != GEntityList->Player()
 			&& Args.Sender->IsEnemy(GEntityList->Player())
 			&& GEntityList->Player()->IsValidTarget(Args.Sender, E->Range() + Args.Sender->BoundingRadius())
-			&& EGapCloser->Enabled() && E->IsReady())
+			&& EGapCloser->Enabled() && E->IsReady()
+			&& (GEntityList->Player()->GetPosition() - Args.EndPosition).Length() < 300)
 		{
 			E->CastOnUnit(Args.Sender);
 		}

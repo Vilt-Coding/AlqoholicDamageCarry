@@ -25,6 +25,7 @@ class IChampion
 public:
 	virtual void OnGameUpdate() = 0;
 	virtual void OnRender() = 0;
+	//virtual void BeforeAttack(IUnit* Source, IUnit* Target);
 	virtual void AfterAttack(IUnit * Source, IUnit * Target) = 0;
 	virtual void OnGapCloser(GapCloserSpell const& Args) = 0;
 	virtual void OnLoad() = 0;
@@ -158,8 +159,6 @@ public:
 
 	void OnGameUpdate() override
 	{
-		//ERRROR
-
 		AlqoholicLucian().Automatic();
 		AlqoholicLucian().CheckPassive();
 
@@ -227,6 +226,11 @@ public:
 //		AlqoholicJinx().AntiGapE(Args);
 //	}
 //
+//	void BeforeAttack(IUnit* Source, IUnit* Target) override
+//	{
+//
+//	}
+//
 //	void AfterAttack(IUnit* Source, IUnit* Target) override
 //	{
 //
@@ -244,6 +248,11 @@ PLUGIN_EVENT(void) OnGameUpdate()
 {
 	pChampion->OnGameUpdate();
 }
+
+//PLUGIN_EVENT(void) BeforeAttack(IUnit* Source, IUnit* Target)
+//{
+//	pChampion->BeforeAttack(Source, Target);
+//}
 
 PLUGIN_EVENT(void) AfterAttack(IUnit* Source, IUnit* Target)
 {
@@ -267,6 +276,8 @@ void LoadChampion()
 		pChampion = new Corki;
 	else if (szChampion == "Lucian")
 		pChampion = new Lucian;
+	//else if (szChampion == "Jinx")
+	//	pChampion = new Jinx;
 	else
 	{
 		GGame->PrintChat("Champion not supported!");
@@ -284,6 +295,7 @@ PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 	GEventManager->AddEventHandler(kEventOnRender, OnRender);
 	GEventManager->AddEventHandler(kEventOnGameUpdate, OnGameUpdate);
 	GEventManager->AddEventHandler(kEventOnGapCloser, OnGapCloser);
+	//GEventManager->AddEventHandler(kEventOrbwalkBeforeAttack, BeforeAttack);
 	GEventManager->AddEventHandler(kEventOrbwalkAfterAttack, AfterAttack);
 }
 
@@ -294,5 +306,6 @@ PLUGIN_API void OnUnload()
 	GEventManager->RemoveEventHandler(kEventOnRender, OnRender);
 	GEventManager->RemoveEventHandler(kEventOnGameUpdate, OnGameUpdate);
 	GEventManager->RemoveEventHandler(kEventOnGapCloser, OnGapCloser);
+	//GEventManager->RemoveEventHandler(kEventOrbwalkBeforeAttack, BeforeAttack);
 	GEventManager->RemoveEventHandler(kEventOrbwalkAfterAttack, AfterAttack);
 }
