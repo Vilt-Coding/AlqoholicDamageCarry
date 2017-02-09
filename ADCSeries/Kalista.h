@@ -187,7 +187,7 @@ public:
 			SaveAlly();
 		}
 
-		if (MiscWDragon->Enabled() && W->IsReady())
+		/*if (MiscWDragon->Enabled() && W->IsReady())
 		{
 			if ((GEntityList->Player()->GetPosition() - dragonLocation).Length() < W->Range())
 			{
@@ -200,7 +200,7 @@ public:
 			{
 				W->CastOnPosition(baronLocation);
 			}
-		}
+		}*/
 	}
 
 	void QAfterAttack(IUnit* Source, IUnit* Target)

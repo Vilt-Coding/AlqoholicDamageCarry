@@ -89,7 +89,7 @@ public:
 					{
 						if (GPrediction->GetCollisionFlagsForPoint(enemy->GetPosition()) == 0)
 						{
-							Q->CastOnTarget(enemy, kHitChanceHigh);
+							R->CastOnTarget(enemy, kHitChanceHigh);
 						}
 					}
 				}

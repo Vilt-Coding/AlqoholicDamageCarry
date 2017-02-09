@@ -189,53 +189,48 @@ public:
 	}
 };
 
-//class Jinx : public IChampion
-//{
-//public:
-//	void OnLoad() override
-//	{
-//		AlqoholicJinx().DrawMenu();
-//		AlqoholicJinx().LoadSpells();
-//	}
-//	void OnRender() override
-//	{
-//		AlqoholicJinx().Draw();
-//	}
-//
-//	void OnGameUpdate() override
-//	{
-//		AlqoholicJinx().Automatic();
-//		AlqoholicJinx().CheckPassive();
-//
-//		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
-//		{
-//			AlqoholicJinx().Combo();
-//		}
-//		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
-//		{
-//			AlqoholicJinx().Harass();
-//		}
-//		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
-//		{
-//			AlqoholicJinx().Farm();
-//		}
-//	}
-//
-//	void OnGapCloser(GapCloserSpell const& Args) override
-//	{
-//		AlqoholicJinx().AntiGapE(Args);
-//	}
-//
-//	void BeforeAttack(IUnit* Source, IUnit* Target) override
-//	{
-//
-//	}
-//
-//	void AfterAttack(IUnit* Source, IUnit* Target) override
-//	{
-//
-//	}
-//};
+class Jinx : public IChampion
+{
+public:
+	void OnLoad() override
+	{
+		AlqoholicJinx().DrawMenu();
+		AlqoholicJinx().LoadSpells();
+	}
+	void OnRender() override
+	{
+		AlqoholicJinx().Draw();
+	}
+
+	void OnGameUpdate() override
+	{
+		AlqoholicJinx().Automatic();
+		AlqoholicJinx().CheckPassive();
+
+		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			AlqoholicJinx().Combo();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+		{
+			AlqoholicJinx().Harass();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+		{
+			AlqoholicJinx().Farm();
+		}
+	}
+
+	void OnGapCloser(GapCloserSpell const& Args) override
+	{
+		AlqoholicJinx().AntiGapE(Args);
+	}
+
+	void AfterAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+};
 
 IChampion* pChampion = nullptr;
 
@@ -276,8 +271,8 @@ void LoadChampion()
 		pChampion = new Corki;
 	else if (szChampion == "Lucian")
 		pChampion = new Lucian;
-	//else if (szChampion == "Jinx")
-	//	pChampion = new Jinx;
+	else if (szChampion == "Jinx")
+		pChampion = new Jinx;
 	else
 	{
 		GGame->PrintChat("Champion not supported!");

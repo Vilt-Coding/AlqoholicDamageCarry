@@ -1,9 +1,20 @@
-﻿  ADCSeries.cpp
-c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Vayne.h(87): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-  PluginSDK.cpp
-     Creating library C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib and object C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.exp
-  Generating code
-  All 216 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
-  Finished generating code
-  ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.dll
-  ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.pdb (Full PDB)
+﻿Build started 08/02/2017 14:25:32.
+     1>Project "C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\ADCSeries\ADCSeries.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D ADCSERIES_EXPORTS /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt ADCSeries.cpp
+         ADCSeries.cpp
+     1>c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Vayne.h(87): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jinx.h(97): warning C4804: '>': unsafe use of type 'bool' in operation
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.dll" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib" /MACHINE:X86 /SAFESEH /DLL Release\ADCSeries.obj
+         Release\PluginSDK.obj
+            Creating library C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib and object C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.exp
+         Generating code
+         All 230 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+         Finished generating code
+         ADCSeries.vcxproj -> C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.dll
+     1>Done Building Project "C:\Users\Billy\Documents\GitHub\AlqoholicDamageCarry\ADCSeries\ADCSeries.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.83

@@ -56,6 +56,9 @@ IMenuOption* MiscR;
 IMenuOption* MiscRSave; //Ally Saving
 IMenuOption* MiscWDragon;
 IMenuOption* MiscWBaron;
+IMenuOption* EGapCloser;
+IMenuOption* EOnMe;
+IMenuOption* EOnEndPos;
 
 IMenuOption* DrawReady;
 IMenuOption* DrawQ;
@@ -65,8 +68,9 @@ IMenuOption* DrawEDamage;
 IMenuOption* DrawR;
 IMenuOption* FocusW;
 IMenuOption* AutoE;
-IMenuOption* EGapCloser;
 IMenuOption* AutoR;
 IMenuOption* AutoREnemies;
 
 bool HasPassive = false;
+
+bool FishBonesActive = false;
