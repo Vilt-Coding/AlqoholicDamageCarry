@@ -5,6 +5,7 @@
 #include "Corki.h"
 #include "Lucian.h"
 #include "Jinx.h"
+#include "Jhin.h"
 
 PluginSetup("ADCSeries");
 
@@ -25,9 +26,10 @@ class IChampion
 public:
 	virtual void OnGameUpdate() = 0;
 	virtual void OnRender() = 0;
-	//virtual void BeforeAttack(IUnit* Source, IUnit* Target);
+	virtual void BeforeAttack(IUnit* Source, IUnit* Target) = 0;
 	virtual void AfterAttack(IUnit * Source, IUnit * Target) = 0;
 	virtual void OnGapCloser(GapCloserSpell const& Args) = 0;
+	virtual void OnProcessSpell(CastedSpell const& Args) = 0;
 	virtual void OnLoad() = 0;
 };
 
@@ -58,9 +60,19 @@ public:
 		AlqoholicVayne().AntiGapclose(Args);
 	}
 
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
 		AlqoholicVayne().QAfterAttack(Source, Target);
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
+	{
+
 	}
 };
 
@@ -96,9 +108,19 @@ public:
 
 	}
 
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
 		AlqoholicKalista().QAfterAttack(Source, Target);
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
+	{
+
 	}
 };
 
@@ -138,7 +160,17 @@ public:
 
 	}
 
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
 	void AfterAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
 	{
 
 	}
@@ -181,11 +213,22 @@ public:
 
 	}
 
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
+		if (GEntityList->Player()->HasBuff("LucianPassiveBuff")) return;
 		AlqoholicLucian().EReset();
-		AlqoholicLucian().QReset();
 		AlqoholicLucian().WReset();
+		AlqoholicLucian().QReset();
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
+	{
+
 	}
 };
 
@@ -226,9 +269,93 @@ public:
 		AlqoholicJinx().AntiGapE(Args);
 	}
 
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
 
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
+	{
+
+	}
+};
+
+class Jhin : public IChampion
+{
+public:
+	void OnLoad() override
+	{
+		AlqoholicJhin().DrawMenu();
+		AlqoholicJhin().LoadSpells();
+	}
+	void OnRender() override
+	{
+		AlqoholicJhin().Draw();
+	}
+
+	void OnGameUpdate() override
+	{
+		AlqoholicJhin().KS();
+
+		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			AlqoholicJhin().Combo();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+		{
+
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+		{
+			//AlqoholicJhin().Farm();
+		}
+
+		if (AlqoholicJhin().IsCastingR())
+		{
+			GOrbwalking->SetMovementAllowed(false);
+			GOrbwalking->SetAttacksAllowed(false);
+			AlqoholicJhin().CastR();
+		}
+		else
+		{
+			GOrbwalking->SetMovementAllowed(true);
+			GOrbwalking->SetAttacksAllowed(true);
+		}
+
+		if (GetAsyncKeyState(SemiR->GetInteger()) 
+			&& R->IsReady() 
+			&& AlqoholicJhin().GetEnemiesInRange(RSafeRange->GetFloat()) == 0
+			&& AlqoholicJhin().GetEnemiesInRange(KSRMaxRange->GetFloat()) > 0)
+		{
+			AlqoholicJhin().CastR();
+		}
+
+	}
+
+	void OnGapCloser(GapCloserSpell const& Args) override
+	{
+		AlqoholicJhin().AntiGapclose(Args);
+	}
+
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
+	void AfterAttack(IUnit* Source, IUnit* Target) override
+	{
+		AlqoholicJhin().WAfterAttack(Source, Target);
+		AlqoholicJhin().QAfterAttack(Source, Target);
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
+	{
+		AlqoholicJhin().OnProcessSpell(Args);
 	}
 };
 
@@ -244,10 +371,10 @@ PLUGIN_EVENT(void) OnGameUpdate()
 	pChampion->OnGameUpdate();
 }
 
-//PLUGIN_EVENT(void) BeforeAttack(IUnit* Source, IUnit* Target)
-//{
-//	pChampion->BeforeAttack(Source, Target);
-//}
+PLUGIN_EVENT(void) BeforeAttack(IUnit* Source, IUnit* Target)
+{
+	pChampion->BeforeAttack(Source, Target);
+}
 
 PLUGIN_EVENT(void) AfterAttack(IUnit* Source, IUnit* Target)
 {
@@ -257,6 +384,11 @@ PLUGIN_EVENT(void) AfterAttack(IUnit* Source, IUnit* Target)
 PLUGIN_EVENT(void) OnGapCloser(GapCloserSpell const& Args)
 {
 	pChampion->OnGapCloser(Args);
+}
+
+PLUGIN_EVENT(void) OnProcessSpell(CastedSpell const& Args)
+{
+	pChampion->OnProcessSpell(Args);
 }
 
 void LoadChampion()
@@ -273,6 +405,8 @@ void LoadChampion()
 		pChampion = new Lucian;
 	else if (szChampion == "Jinx")
 		pChampion = new Jinx;
+	else if (szChampion == "Jhin")
+		pChampion = new Jhin;
 	else
 	{
 		GGame->PrintChat("Champion not supported!");
@@ -290,7 +424,8 @@ PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 	GEventManager->AddEventHandler(kEventOnRender, OnRender);
 	GEventManager->AddEventHandler(kEventOnGameUpdate, OnGameUpdate);
 	GEventManager->AddEventHandler(kEventOnGapCloser, OnGapCloser);
-	//GEventManager->AddEventHandler(kEventOrbwalkBeforeAttack, BeforeAttack);
+	GEventManager->AddEventHandler(kEventOnSpellCast, OnProcessSpell);
+	GEventManager->AddEventHandler(kEventOrbwalkBeforeAttack, BeforeAttack);
 	GEventManager->AddEventHandler(kEventOrbwalkAfterAttack, AfterAttack);
 }
 
@@ -301,6 +436,7 @@ PLUGIN_API void OnUnload()
 	GEventManager->RemoveEventHandler(kEventOnRender, OnRender);
 	GEventManager->RemoveEventHandler(kEventOnGameUpdate, OnGameUpdate);
 	GEventManager->RemoveEventHandler(kEventOnGapCloser, OnGapCloser);
-	//GEventManager->RemoveEventHandler(kEventOrbwalkBeforeAttack, BeforeAttack);
+	GEventManager->RemoveEventHandler(kEventOnSpellCast, OnProcessSpell);
+	GEventManager->RemoveEventHandler(kEventOrbwalkBeforeAttack, BeforeAttack);
 	GEventManager->RemoveEventHandler(kEventOrbwalkAfterAttack, AfterAttack);
 }

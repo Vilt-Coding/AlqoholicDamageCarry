@@ -53,5 +53,8 @@
     <ClInclude Include="Jinx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Jhin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

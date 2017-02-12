@@ -100,10 +100,7 @@ public:
 				{
 					if (enemy->GetHealth() < (GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotR) / 2))
 					{
-						if (GPrediction->GetCollisionFlagsForPoint(enemy->GetPosition()) == 0)
-						{
-							R->CastOnTarget(enemy, kHitChanceHigh);
-						}
+						R->CastOnTarget(enemy, kHitChanceHigh);
 					}
 				}
 			}
@@ -165,7 +162,7 @@ public:
 
 			if (ComboW->Enabled() && W->IsReady())
 			{
-				Q->CastOnTarget(target, kHitChanceHigh);
+				W->CastOnTarget(target, kHitChanceHigh);
 			}
 		}
 	}

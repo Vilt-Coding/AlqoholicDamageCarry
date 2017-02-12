@@ -94,7 +94,9 @@ public:
 		if (target == nullptr) return;
 		if (ComboQ->Enabled())
 		{
-			if (FishBonesActive == false && GetAttackRange(true) > (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GetAttackRange(false))
+			if (FishBonesActive == false 
+				&& GetAttackRange(true) > (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() 
+				&& GetAttackRange(false) < (GEntityList->Player()->GetPosition() - target->GetPosition()).Length())
 			{
 				Q->CastOnPlayer();
 				GGame->PrintChat("FishBones Active");

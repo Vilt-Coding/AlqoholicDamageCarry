@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="BaseChampion.h" />
     <ClInclude Include="Corki.h" />
+    <ClInclude Include="Jhin.h" />
     <ClInclude Include="Jinx.h" />
     <ClInclude Include="Kalista.h" />
     <ClInclude Include="LPPConstants.h" />

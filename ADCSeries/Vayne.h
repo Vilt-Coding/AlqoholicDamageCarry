@@ -26,8 +26,10 @@ public:
 
 		ComboE = EMenu->CheckBox("Use E", true);
 		AutoE = EMenu->CheckBox("Auto Condemn", true);
-		EGapCloser = EMenu->CheckBox("Auto Anti-GapCloser", true);
-
+		EGapCloser = EMenu->CheckBox("Auto Anti-GapCloser", true); 
+		SemiE = EMenu->AddKey("Semi-Condemn", 69);
+		PushDistance = EMenu->AddFloat("Condemn Push Distance", 350, 470, 420);
+		
 		AutoR = RMenu->CheckBox("Auto R when enemies >= x", true);
 		AutoREnemies = RMenu->AddInteger("Enemies in range", 1, 5, 2);
 
@@ -62,6 +64,17 @@ public:
 		}
 	}
 
+	void Automatic()
+	{
+		if (GetAsyncKeyState(SemiE->GetInteger())) 
+		{
+			auto target = GTargetSelector->FindTarget(ClosestToCursorPriority, PhysicalDamage, E->Range());
+
+			if (target == nullptr || target->IsDead()) return;
+			E->CastOnTarget(target);
+		}
+	}
+
 	float DegreeToRadian(double angle)
 	{
 		return float(M_PI * angle / 180.0);
@@ -77,7 +90,7 @@ public:
 
 				if (flDistance > E->Range()) { return; }
 
-				float pushDistance = 415;
+				auto pushDistance = PushDistance->GetFloat();
 				float forty = 40;
 				auto targetPosition = enemy->ServerPosition();
 				auto checkDistance = pushDistance / forty;

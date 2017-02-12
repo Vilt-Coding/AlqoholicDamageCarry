@@ -23,8 +23,10 @@ IMenuOption* ComboQ;
 IMenuOption* ComboW;
 IMenuOption* ComboE;
 IMenuOption* ComboR;
+IMenuOption* RSafeRange;
 
 IMenuOption* HarassQ;
+IMenuOption* QMinionHarass;
 IMenuOption* HarassW;
 IMenuOption* HarassE;
 IMenuOption* HarassR;
@@ -43,6 +45,7 @@ IMenuOption* FarmEMonsters; //Baron Dragon
 IMenuOption* FarmMana;
 
 IMenuOption* AutoEKillable;
+IMenuOption* PushDistance;
 IMenuOption* MiscSheen;
 IMenuOption* MiscPassive;
 IMenuOption* KSQ;
@@ -59,6 +62,12 @@ IMenuOption* MiscWBaron;
 IMenuOption* EGapCloser;
 IMenuOption* EOnMe;
 IMenuOption* EOnEndPos;
+IMenuOption* FocusW;
+IMenuOption* AutoE;
+IMenuOption* SemiE;
+IMenuOption* SemiR;
+IMenuOption* AutoR;
+IMenuOption* AutoREnemies;
 
 IMenuOption* DrawReady;
 IMenuOption* DrawQ;
@@ -66,11 +75,11 @@ IMenuOption* DrawW;
 IMenuOption* DrawE;
 IMenuOption* DrawEDamage;
 IMenuOption* DrawR;
-IMenuOption* FocusW;
-IMenuOption* AutoE;
-IMenuOption* AutoR;
-IMenuOption* AutoREnemies;
 
 bool HasPassive = false;
 
 bool FishBonesActive = false;
+
+Vec3 rPosCast;
+IUnit* rTargetLast;
+Vec3 rPosLast;
