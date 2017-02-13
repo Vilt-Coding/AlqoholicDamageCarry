@@ -172,7 +172,8 @@ public:
 		{
 			if (ComboW->Enabled()
 				&& W->IsReady()
-				&& GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+				&& GOrbwalking->GetOrbwalkingMode() == kModeCombo
+			   	&& (GEntityList->Player()->GetPosition() - Target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
 			{
 				if (GDamage->GetAutoAttackDamage(GEntityList->Player(), Target, true) > Target->GetHealth())
 					return;
@@ -181,6 +182,7 @@ public:
 				{
 					auto target = GetTargetWithW();
 					if (target == nullptr) return;
+					if ((GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange()
 					W->CastOnTarget(target);
 				}
 				else
