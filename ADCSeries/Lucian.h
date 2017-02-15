@@ -29,7 +29,6 @@ public:
 		MiscMenu = MainMenu->AddMenu("Misc Settings");
 		MiscPassive = MiscMenu->CheckBox("Smart Passive Logic", true);
 		KSQ = MiscMenu->CheckBox("KS Q", true);
-		KSR = MiscMenu->CheckBox("KS R", true);
 
 		DrawingsMenu = MainMenu->AddMenu("Drawing Settings");
 		DrawReady = DrawingsMenu->CheckBox("Draw Only Ready Spells", true);
@@ -86,7 +85,7 @@ public:
 		{
 			if (KSQ->Enabled() && Q->IsReady())
 			{
-				if (enemy->IsEnemy(GEntityList->Player()) && GEntityList->Player()->IsValidTarget(enemy, Q->Range()))
+				if (enemy->IsEnemy(GEntityList->Player()) && GEntityList->Player()->IsValidTarget(enemy, Q->Range()) && enemy != nullptr)
 				{
 					if (enemy->GetHealth() < GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotQ))
 					{
@@ -94,43 +93,52 @@ public:
 					}
 				}
 			}
-			if (KSR->Enabled() && R->IsReady())
+		}
+	}
+
+	void SemiR()
+	{
+		if (GetAsyncKeyState(ComboR->GetInteger()) && R->IsReady())
+		{
+			auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, R->Range());
+			if (target != nullptr && GEntityList->Player()->IsValidTarget(target, R->Range()))
 			{
-				if (enemy->IsEnemy(GEntityList->Player()) && GEntityList->Player()->IsValidTarget(enemy, R->Range()))
-				{
-					if (enemy->GetHealth() < (GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotR) / 2))
-					{
-						R->CastOnTarget(enemy, kHitChanceHigh);
-					}
-				}
+				R->CastOnTarget(target, kHitChanceHigh);
 			}
 		}
 	}
 
 	void QReset()
 	{
-			if (ComboQ->Enabled() && Q->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
-			{
-				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
-				Q->CastOnTarget(target, kHitChanceHigh);
-			}
+		if (HasPassive == true) return;
+		if (ComboQ->Enabled() && Q->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
+			if (target == nullptr || !GEntityList->Player()->IsValidTarget(target, Q->Range())) return;
+			Q->CastOnTarget(target, kHitChanceHigh);
+		}
 	}
-	
+
 	void WReset()
 	{
-			if (ComboW->Enabled() && W->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
-			{
-				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
-				W->CastOnTarget(target, kHitChanceHigh);
-			}
+		if (HasPassive == true) return;
+		if (ComboW->Enabled() && W->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
+			if ((target == nullptr || !GEntityList->Player()->IsValidTarget(target, W->Range())) 
+				&& (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() < GEntityList->Player()->AttackRange()) return;
+			W->CastOnTarget(target, kHitChanceHigh);
+		}
 	}
 
 	void EReset()
 	{
-			if (ComboE->Enabled() && E->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
-			{
-				E->CastOnPosition(GGame->CursorPosition());
-			}
+		if (HasPassive == true) return;
+
+		if (ComboE->Enabled() && E->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			E->CastOnPosition(GGame->CursorPosition());
+		}
 	}
 
 	void Combo()
@@ -140,6 +148,7 @@ public:
 			if (ComboR->Enabled() && R->IsReady())
 			{
 				auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, R->Range());
+				if (target == nullptr || !GEntityList->Player()->IsValidTarget(target, R->Range())) return;
 				if (target->GetHealth() < (GDamage->GetSpellDamage(GEntityList->Player(), target, kSlotR) / 2))
 				{
 					R->CastOnTarget(target, kHitChanceHigh);
@@ -153,6 +162,7 @@ public:
 		if (!MiscPassive->Enabled() || HasPassive == false)
 		{
 			auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
+			if (target == nullptr || !GEntityList->Player()->IsValidTarget(target, Q->Range())) return;
 
 
 			if (HarassQ->Enabled() && Q->IsReady())
@@ -175,6 +185,7 @@ public:
 			{
 				for (auto minion : GEntityList->GetAllMinions(false, true, false))
 				{
+					if (minion == nullptr) return;
 					if (minion->IsEnemy(GEntityList->Player()) && !minion->IsDead() && GEntityList->Player()->IsValidTarget(minion, Q->Range()))
 					{
 						if (FarmW->Enabled() && W->IsReady())

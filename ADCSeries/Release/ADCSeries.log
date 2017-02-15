@@ -5,7 +5,7 @@ c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(226): warn
   PluginSDK.cpp
      Creating library C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib and object C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.exp
   Generating code
-  All 277 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 278 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.dll
   ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.pdb (Full PDB)

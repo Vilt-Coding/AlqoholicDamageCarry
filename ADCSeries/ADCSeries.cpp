@@ -193,6 +193,7 @@ public:
 	{
 		AlqoholicLucian().Automatic();
 		AlqoholicLucian().CheckPassive();
+		AlqoholicLucian().SemiR();
 
 		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
 		{
@@ -220,7 +221,7 @@ public:
 
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
-		if (GEntityList->Player()->HasBuff("LucianPassiveBuff")) return;
+		if (Source != GEntityList->Player()) return;
 		AlqoholicLucian().EReset();
 		AlqoholicLucian().WReset();
 		AlqoholicLucian().QReset();
