@@ -161,6 +161,7 @@
     <ClInclude Include="Lucian.h" />
     <ClInclude Include="PluginData.h" />
     <ClInclude Include="PluginSDK.h" />
+    <ClInclude Include="Varus.h" />
     <ClInclude Include="Vayne.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>

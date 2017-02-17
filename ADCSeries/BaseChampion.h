@@ -17,6 +17,7 @@ IMenu* WMenu;
 IMenu* EMenu;
 IMenu* RMenu;
 IMenu* Misc;
+IMenu* ManaMenu;
 IMenu* Drawings;
 
 IMenuOption* ComboQ;
@@ -54,6 +55,9 @@ IMenuOption* KSE;
 IMenuOption* KSR;
 IMenuOption* KSRMinRange;
 IMenuOption* KSRMaxRange;
+IMenuOption* MiscQ;
+IMenuOption* MiscW;
+IMenuOption* MiscE;
 IMenuOption* MiscEDamage; //E Damage Reduction
 IMenuOption* MiscR;
 IMenuOption* MiscRSave; //Ally Saving
@@ -68,6 +72,9 @@ IMenuOption* SemiE;
 IMenuOption* SemiR;
 IMenuOption* AutoR;
 IMenuOption* AutoREnemies;
+IMenuOption* StackTear;
+IMenuOption* TearMana;
+IMenuOption* HitChance;
 
 IMenuOption* DrawReady;
 IMenuOption* DrawQ;

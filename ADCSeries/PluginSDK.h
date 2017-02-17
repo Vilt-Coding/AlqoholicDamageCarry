@@ -219,7 +219,7 @@ public:
 class ISpell2
 {
 public:
-	virtual bool CastOnTarget(IUnit* Target, int MinimumHitChance = kHitChanceHigh) = 0;
+	virtual bool CastOnTarget(IUnit* Target, int Minimumhance = kHitChanceHigh) = 0;
 	virtual bool CastOnTargetAoE(IUnit* Target, int MinimumChampionsTohit = 2, int MinimumHitChance = kHitChanceHigh) = 0;
 	virtual bool LastHitMinion() = 0;
 	virtual bool AttackMinions(int MinimumEnemiesToHit = 3) = 0;

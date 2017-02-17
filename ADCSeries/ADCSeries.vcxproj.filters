@@ -56,5 +56,8 @@
     <ClInclude Include="Jhin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Varus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

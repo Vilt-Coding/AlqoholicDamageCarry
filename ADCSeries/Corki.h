@@ -104,18 +104,22 @@ public:
 			if (ComboQ->Enabled() && Q->IsReady())
 			{
 				auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, Q->Range());
-				Q->CastOnTarget(target, kHitChanceHigh);
+				if (target != nullptr)
+					Q->CastOnTarget(target, kHitChanceHigh);
 			}
 			if (ComboE->Enabled() && E->IsReady())
 			{
 				auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, E->Range());
-				if (target != nullptr && GEntityList->Player()->IsValidTarget(target, 500) && (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() < 500)
+				if (target != nullptr 
+					&& GEntityList->Player()->IsValidTarget(target, 500) 
+					&& (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() < 500)
 					E->CastOnPlayer();
 			}
 			if (ComboR->Enabled() && R->IsReady())
 			{
 				auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, R->Range());
-				R->CastOnTarget(target, kHitChanceHigh);
+				if (target != nullptr)
+					R->CastOnTarget(target, kHitChanceHigh);
 			}
 		}
 	}
@@ -126,11 +130,13 @@ public:
 		if (HarassQ->Enabled() && Q->IsReady())
 		{
 			auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, Q->Range());
-			Q->CastOnTarget(target, kHitChanceHigh);
+			if (target != nullptr)
+				Q->CastOnTarget(target, kHitChanceHigh);
 		}
 		if (HarassR->Enabled() && R->IsReady())
 		{
 			auto target = GTargetSelector->FindTarget(QuickestKill, SpellDamage, R->Range());
+			if (target != nullptr)
 			R->CastOnTarget(target, kHitChanceHigh);
 		}
 	}

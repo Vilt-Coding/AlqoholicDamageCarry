@@ -6,6 +6,7 @@
 #include "Lucian.h"
 #include "Jinx.h"
 #include "Jhin.h"
+#include "Varus.h"
 
 PluginSetup("ADCSeries");
 
@@ -328,8 +329,8 @@ public:
 			GOrbwalking->SetAttacksAllowed(true);
 		}
 
-		if (GetAsyncKeyState(SemiR->GetInteger()) 
-			&& R->IsReady() 
+		if (GetAsyncKeyState(SemiR->GetInteger())
+			&& R->IsReady()
 			&& AlqoholicJhin().GetEnemiesInRange(RSafeRange->GetFloat()) == 0
 			&& AlqoholicJhin().GetEnemiesInRange(KSRMaxRange->GetFloat()) > 0)
 		{
@@ -357,6 +358,66 @@ public:
 	void OnProcessSpell(CastedSpell const& Args) override
 	{
 		AlqoholicJhin().OnProcessSpell(Args);
+	}
+};
+
+class Varus : public IChampion
+{
+public:
+	void OnLoad() override
+	{
+		AlqoholicVarus().DrawMenu();
+		AlqoholicVarus().LoadSpells();
+	}
+	void OnRender() override
+	{
+		AlqoholicVarus().Draw();
+	}
+
+	void OnGameUpdate() override
+	{
+		AlqoholicVarus().KS();
+
+		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+		{
+			AlqoholicVarus().Combo();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+		{
+			AlqoholicVarus().Harass();
+		}
+		else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+		{
+			AlqoholicVarus().Farm();
+		}
+
+		if (GetAsyncKeyState(SemiR->GetInteger())
+			&& R->IsReady())
+		{
+			auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, R->Range());
+			if (target != nullptr && GEntityList->Player()->IsValidTarget(target, R->Range()))
+				R->CastOnTarget(target, HitChance->GetInteger());
+		}
+	}
+
+	void OnGapCloser(GapCloserSpell const& Args) override
+	{
+
+	}
+
+	void BeforeAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
+	void AfterAttack(IUnit* Source, IUnit* Target) override
+	{
+
+	}
+
+	void OnProcessSpell(CastedSpell const& Args) override
+	{
+
 	}
 };
 
@@ -408,6 +469,8 @@ void LoadChampion()
 		pChampion = new Jinx;
 	else if (szChampion == "Jhin")
 		pChampion = new Jhin;
+	else if (szChampion == "Varus")
+		pChampion = new Varus;
 	else
 	{
 		GGame->PrintChat("Champion not supported!");
@@ -433,6 +496,7 @@ PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 // Called when plugin is unloaded
 PLUGIN_API void OnUnload()
 {
+	MainMenu->SaveSettings();
 	MainMenu->Remove();
 	GEventManager->RemoveEventHandler(kEventOnRender, OnRender);
 	GEventManager->RemoveEventHandler(kEventOnGameUpdate, OnGameUpdate);

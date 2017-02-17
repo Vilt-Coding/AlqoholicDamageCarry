@@ -182,7 +182,7 @@ public:
 				{
 					auto target = GetTargetWithW();
 					if (target == nullptr) return;
-					if ((GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange()
+					if ((GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
 					W->CastOnTarget(target);
 				}
 				else
