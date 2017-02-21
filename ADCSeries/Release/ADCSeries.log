@@ -1,11 +1,11 @@
 ﻿  ADCSeries.cpp
 c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Vayne.h(100): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
-c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(227): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(228): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(229): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(230): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   PluginSDK.cpp
      Creating library C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib and object C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.exp
   Generating code
-  All 306 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 322 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.dll
   ADCSeries.vcxproj -> C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.pdb (Full PDB)

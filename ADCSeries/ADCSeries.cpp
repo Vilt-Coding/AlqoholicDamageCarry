@@ -7,6 +7,7 @@
 #include "Jinx.h"
 #include "Jhin.h"
 #include "Varus.h"
+#include <sstream>
 
 PluginSetup("ADCSeries");
 
@@ -25,6 +26,7 @@ PLUGIN_EVENT(void) OnOrbwalkAttack(IUnit* Source, IUnit* Target)
 class IChampion
 {
 public:
+	virtual ~IChampion() = default;
 	virtual void OnGameUpdate() = 0;
 	virtual void OnRender() = 0;
 	virtual void BeforeAttack(IUnit* Source, IUnit* Target) = 0;

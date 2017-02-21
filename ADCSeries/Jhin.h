@@ -23,6 +23,7 @@ public:
 
 		ComboW = WMenu->CheckBox("[Combo] Use W", true);
 		FocusW = WMenu->CheckBox("[Misc] Only W Marked", true);
+		MiscW = WMenu->CheckBox("[Misc] Only W Out of AA Range", false);
 		//FarmW = WMenu->CheckBox("[Farm] Use W", true);
 		KSW = WMenu->CheckBox("[KS] Use W", true);
 
@@ -172,8 +173,7 @@ public:
 		{
 			if (ComboW->Enabled()
 				&& W->IsReady()
-				&& GOrbwalking->GetOrbwalkingMode() == kModeCombo
-			   	&& (GEntityList->Player()->GetPosition() - Target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
+				&& GOrbwalking->GetOrbwalkingMode() == kModeCombo)
 			{
 				if (GDamage->GetAutoAttackDamage(GEntityList->Player(), Target, true) > Target->GetHealth())
 					return;
@@ -182,12 +182,14 @@ public:
 				{
 					auto target = GetTargetWithW();
 					if (target == nullptr) return;
-					if ((GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
-					W->CastOnTarget(target);
+					if (MiscW->Enabled() && (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
+						W->CastOnTarget(target, kHitChanceHigh);
+					else
+						W->CastOnTarget(target, kHitChanceHigh);
 				}
 				else
 				{
-					W->CastOnTarget(Target);
+					W->CastOnTarget(Target, kHitChanceHigh);
 				}
 			}
 		}
@@ -263,8 +265,9 @@ public:
 		if (!IsCastingR()
 			&& target != nullptr
 			&& !target->IsDead()
-			&& GetEnemiesInRange(RSafeRange->GetFloat()) == 0
-			&& (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > KSRMinRange->GetFloat())
+			//&& GetEnemiesInRange(RSafeRange->GetFloat()) == 0
+			//&& (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > KSRMinRange->GetFloat()
+			)
 		{
 			R->CastOnTarget(target);
 			rTargetLast = target;
@@ -306,10 +309,12 @@ public:
 			&& W->IsReady())
 		{
 			auto target = GetTargetWithW();
-			if (target != nullptr
-				&& (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
+			if (target != nullptr)
 			{
-				W->CastOnTarget(target, kHitChanceHigh);
+				if (MiscW->Enabled() && (GEntityList->Player()->GetPosition() - target->GetPosition()).Length() > GEntityList->Player()->AttackRange())
+					W->CastOnTarget(target, kHitChanceHigh);
+				else
+					W->CastOnTarget(target, kHitChanceHigh);
 			}
 		}
 	}
