@@ -215,9 +215,6 @@ public:
 				{
 					if (GetEnemiesInRRange(rTarget) >= MiscR->GetInteger())
 					{
-						std::string s = std::to_string(GetEnemiesInRRange(rTarget));
-						char const *pchar = s.c_str();
-						GGame->PrintChat(pchar);
 						R->CastOnTarget(rTarget, HitChance->GetInteger());
 						break;
 					}

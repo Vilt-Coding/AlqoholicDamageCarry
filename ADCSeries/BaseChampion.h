@@ -56,6 +56,7 @@ IMenuOption* KSR;
 IMenuOption* KSRMinRange;
 IMenuOption* KSRMaxRange;
 IMenuOption* MiscQ;
+IMenuOption* MiscQHealth;
 IMenuOption* MiscW;
 IMenuOption* MiscE;
 IMenuOption* MiscEDamage; //E Damage Reduction

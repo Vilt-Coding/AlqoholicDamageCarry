@@ -18,18 +18,18 @@ public:
 		EMenu = MainMenu->AddMenu("E Settings");
 		RMenu = MainMenu->AddMenu("R Settings");
 		DrawingsMenu = MainMenu->AddMenu("Drawings");
-		GGame->PrintChat("Drawing Menu");
 
 		ComboQ = QMenu->CheckBox("Use Q", true);
+		MiscQ = QMenu->CheckBox("Dont Q while invis", true);
+		MiscQHealth = QMenu->AddFloat("Only Under X HP%", 0, 100, 30);
 
 		FocusW = WMenu->CheckBox("Focus W Stacks", true);
 
-		ComboE = EMenu->CheckBox("Use E", true);
 		AutoE = EMenu->CheckBox("Auto Condemn", true);
-		EGapCloser = EMenu->CheckBox("Auto Anti-GapCloser", true); 
+		EGapCloser = EMenu->CheckBox("Auto Anti-GapCloser", true);
 		SemiE = EMenu->AddKey("Semi-Condemn", 69);
 		PushDistance = EMenu->AddFloat("Condemn Push Distance", 350, 470, 420);
-		
+
 		AutoR = RMenu->CheckBox("Auto R when enemies >= x", true);
 		AutoREnemies = RMenu->AddInteger("Enemies in range", 1, 5, 2);
 
@@ -66,7 +66,7 @@ public:
 
 	void Automatic()
 	{
-		if (GetAsyncKeyState(SemiE->GetInteger())) 
+		if (GetAsyncKeyState(SemiE->GetInteger()))
 		{
 			auto target = GTargetSelector->FindTarget(ClosestToCursorPriority, PhysicalDamage, E->Range());
 
@@ -84,7 +84,10 @@ public:
 	{
 		for (auto enemy : GEntityList->GetAllHeros(false, true))
 		{
-			if (enemy != nullptr && enemy->GetTeam() != GEntityList->Player()->GetTeam() && GEntityList->Player()->IsValidTarget(enemy, E->Range()))
+			if (enemy != nullptr
+				&& enemy->GetTeam()
+				!= GEntityList->Player()->GetTeam()
+				&& GEntityList->Player()->IsValidTarget(enemy, E->Range()))
 			{
 				auto flDistance = (enemy->GetPosition() - GEntityList->Player()->GetPosition()).Length();
 
@@ -163,16 +166,21 @@ public:
 		}
 	}
 
+	void EAfterAttack(IUnit* Source, IUnit* Target) {
+		if (Source == GEntityList->Player())
+		{
+			if (AutoE->Enabled() && E->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
+			{
+				AutoCondemn();
+			}
+		}
+	}
+
 	void Combo()
 	{
 		if (FocusW->Enabled())
 		{
 			GOrbwalking->SetOverrideTarget(GetTargetWithW());
-		}
-
-		if (AutoE->Enabled() && E->IsReady())
-		{
-			AutoCondemn();
 		}
 
 		if (AutoR->Enabled() && R->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)

@@ -52,8 +52,17 @@ public:
 
 	void OnGameUpdate() override
 	{
+		AlqoholicVayne().Automatic();
+
 		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
 		{
+			if (GEntityList->Player()->HasBuff("vaynetumblefade") 
+				&& MiscQ->Enabled()
+				&& GEntityList->Player()->HealthPercent() < MiscQHealth->GetFloat()) 
+				GOrbwalking->SetAttacksAllowed(false); 
+			else 
+				GOrbwalking->SetAttacksAllowed(true);
+
 			AlqoholicVayne().Combo();
 		}
 	}
@@ -71,6 +80,7 @@ public:
 	void AfterAttack(IUnit* Source, IUnit* Target) override
 	{
 		AlqoholicVayne().QAfterAttack(Source, Target);
+		AlqoholicVayne().EAfterAttack(Source, Target);
 	}
 
 	void OnProcessSpell(CastedSpell const& Args) override
