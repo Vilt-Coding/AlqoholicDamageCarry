@@ -47,7 +47,7 @@ public:
 		DrawR = DrawingsMenu->CheckBox("Draw R", true);
 	}
 
-	void LoadSpells()
+	static void LoadSpells()
 	{
 		Q = GPluginSDK->CreateSpell2(kSlotQ, kLineCast, true, false, kCollidesWithMinions);
 		Q->SetSkillshot(0.25, 40.f, 1200.f, 1150.f);
@@ -59,7 +59,7 @@ public:
 		R->SetOverrideRange(1000.f);
 	}
 
-	void Draw()
+	void Draw() const
 	{
 		if (DrawReady->Enabled())
 		{
@@ -107,7 +107,7 @@ public:
 
 	}
 
-	void CastE()
+	static void CastE()
 	{
 		for (auto enemy : GEntityList->GetAllHeros(false, true))
 		{
@@ -122,7 +122,7 @@ public:
 		}
 	}
 
-	void StealE()
+	static void StealE()
 	{
 		for (auto minion : GEntityList->GetAllMinions(false, false, true))
 		{
@@ -144,7 +144,7 @@ public:
 		}
 	}
 
-	void SaveAlly()
+	static void SaveAlly()
 	{
 		for (auto ally : GEntityList->GetAllHeros(true, false))
 		{
@@ -172,7 +172,7 @@ public:
 		}
 	}
 
-	void Automatic()
+	static void Automatic()
 	{
 		if (AutoEKillable->Enabled() && E->IsReady())
 		{
@@ -203,7 +203,7 @@ public:
 		}*/
 	}
 
-	void QAfterAttack(IUnit* Source, IUnit* Target)
+	static void QAfterAttack(IUnit* Source, IUnit* Target)
 	{
 		if (Source == GEntityList->Player())
 		{
@@ -218,7 +218,7 @@ public:
 		}
 	}
 
-	void Combo()
+	static void Combo()
 	{
 		auto qTarget = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, Q->Range());
 		auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, GEntityList->Player()->AttackRange());
@@ -235,12 +235,12 @@ public:
 		}
 	}
 
-	void Harass()
+	static void Harass()
 	{
 		//TODO: Not a priority
 	}
 
-	void Farm()
+	static void Farm()
 	{
 		if (GEntityList->Player()->ManaPercent() >= FarmMana->GetFloat())
 		{

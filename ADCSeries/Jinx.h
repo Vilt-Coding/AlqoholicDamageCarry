@@ -1,11 +1,10 @@
 #pragma once
 #include "BaseChampion.h"
-#include <iostream>
 
 class AlqoholicJinx
 {
 public:
-	void DrawMenu()
+	static void DrawMenu()
 	{
 		MainMenu = GPluginSDK->AddMenu("AlqoholicDamageCarry - Jinx");
 
@@ -35,7 +34,7 @@ public:
 		DrawR = DrawingsMenu->CheckBox("Draw R", true);
 	}
 
-	void LoadSpells()
+	static void LoadSpells()
 	{
 		Q = GPluginSDK->CreateSpell2(kSlotQ, kTargetCast, false, false, kCollidesWithNothing);
 		W = GPluginSDK->CreateSpell2(kSlotW, kLineCast, true, false, kCollidesWithMinions);
@@ -43,7 +42,7 @@ public:
 		R = GPluginSDK->CreateSpell2(kSlotR, kTargetCast, true, true, kCollidesWithYasuoWall);
 	}
 
-	void Automatic()
+	static void Automatic()
 	{
 		R->SetOverrideRange(KSRMaxRange->GetFloat());
 
@@ -55,10 +54,10 @@ public:
 				{
 					if (enemy->GetHealth() < GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotR))
 					{
-						Vec3 pos;
-						GPrediction->SimulateMissile(GEntityList->Player()->GetPosition(), enemy, R->Speed(), R->Radius(), R->Range(), R->GetDelay(), 0, pos);
+						//Vec3 pos;
+						//GPrediction->SimulateMissile(GEntityList->Player()->GetPosition(), enemy, R->Speed(), R->Radius(), R->Range(), R->GetDelay(), 0, pos);
 
-						R->CastOnPosition(pos);
+						R->CastOnTarget(enemy, kHitChanceHigh);
 					}
 				}
 			}
@@ -78,20 +77,22 @@ public:
 		}
 	}
 
-	void CheckPassive()
+	static void CheckPassive()
 	{
 		FishBonesActive = GEntityList->Player()->HasBuff("JinxQ") ? true : false;
 	}
 
-	float GetAttackRange(bool FishBones = false)
+	static float GetAttackRange(bool FishBones = false)
 	{
-		return FishBones == true ? GEntityList->Player()->AttackRange() + (GEntityList->Player()->GetSpellLevel(kSlotQ) * 25 + 50) : GEntityList->Player()->AttackRange();
+		return FishBones == true ? 525.f + (GEntityList->Player()->GetSpellLevel(kSlotQ) * 25 + 50) : 525.f;
 	}
 
-	void Combo()
+	static void Combo()
 	{
 		auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
+
 		if (target == nullptr) return;
+
 		if (ComboQ->Enabled())
 		{
 			if (FishBonesActive == false 
@@ -99,12 +100,10 @@ public:
 				&& GetAttackRange(false) < (GEntityList->Player()->GetPosition() - target->GetPosition()).Length())
 			{
 				Q->CastOnPlayer();
-				GGame->PrintChat("FishBones Active");
 			}
 			else if ((GEntityList->Player()->GetPosition() - target->GetPosition()).Length() < GetAttackRange(false) && FishBonesActive == true)
 			{
 				Q->CastOnPlayer();
-				GGame->PrintChat("PowPow Active");
 			}
 		}
 
@@ -122,7 +121,7 @@ public:
 		}
 	}
 
-	void Harass()
+	static void Harass()
 	{
 		auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
 
@@ -133,18 +132,24 @@ public:
 		}
 	}
 
-	void Farm()
+	static void Farm()
 	{
 
 	}
 
-	void AntiGapE(GapCloserSpell Args)
+	static void AntiGapE(GapCloserSpell Args)
 	{
-		if (Args.Sender == nullptr || Args.Sender->IsDead() || GEntityList->Player()->IsDead() || !EGapCloser->Enabled()) return;
-		EOnMe->Enabled() ? E->CastOnPlayer() : E->CastOnPosition(Args.EndPosition);
+		if (Args.Sender != GEntityList->Player()
+			&& Args.Sender->IsEnemy(GEntityList->Player())
+			&& GEntityList->Player()->IsValidTarget(Args.Sender, E->Range() + Args.Sender->BoundingRadius())
+			&& EGapCloser->Enabled() && E->IsReady()
+			&& (GEntityList->Player()->GetPosition() - Args.EndPosition).Length() < 300)
+		{
+			EOnMe->Enabled() ? E->CastOnPlayer() : E->CastOnPosition(Args.EndPosition);
+		}
 	}
 
-	void Draw()
+	static void Draw()
 	{
 		if (DrawReady->Enabled())
 		{
