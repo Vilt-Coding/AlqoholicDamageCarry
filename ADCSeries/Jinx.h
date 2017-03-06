@@ -14,13 +14,13 @@ public:
 		ComboE = ComboMenu->CheckBox("Use E [SMART]", true);
 		ComboR = ComboMenu->CheckBox("Use R", true);
 
-		HarassMenu = MainMenu->AddMenu("Harass Settings [WIP/SOON]");
+		HarassMenu = MainMenu->AddMenu("Harass Settings");
 		HarassW = HarassMenu->CheckBox("Use W", true);
 		HarassMana = HarassMenu->AddFloat("Min. Mana", 0, 100, 60);
 
 		MiscMenu = MainMenu->AddMenu("Misc Settings");
 		EGapCloser = MiscMenu->CheckBox("Auto E GapClose", true);
-		EOnMe = MiscMenu->CheckBox("Cast On Me [True] Cast On End Pos [False]", true);
+		EOnMe = MiscMenu->CheckBox("Cast On Me [True] Cast On End Pos [False]", false);
 		KSW = MiscMenu->CheckBox("KS W", true);
 		KSR = MiscMenu->CheckBox("KS R", true);
 		KSRMinRange = MiscMenu->AddFloat("Min R Range", 0, 1000, 1000);
@@ -37,9 +37,9 @@ public:
 	static void LoadSpells()
 	{
 		Q = GPluginSDK->CreateSpell2(kSlotQ, kTargetCast, false, false, kCollidesWithNothing);
-		W = GPluginSDK->CreateSpell2(kSlotW, kLineCast, true, false, kCollidesWithMinions);
+		W = GPluginSDK->CreateSpell2(kSlotW, kLineCast, true, false, static_cast<eCollisionFlags>(kCollidesWithMinions | kCollidesWithHeroes | kCollidesWithYasuoWall));
 		E = GPluginSDK->CreateSpell2(kSlotE, kCircleCast, false, false, kCollidesWithYasuoWall);
-		R = GPluginSDK->CreateSpell2(kSlotR, kTargetCast, true, true, kCollidesWithYasuoWall);
+		R = GPluginSDK->CreateSpell2(kSlotR, kTargetCast, true, true, static_cast<eCollisionFlags>(kCollidesWithHeroes | kCollidesWithYasuoWall));
 	}
 
 	static void Automatic()
@@ -52,11 +52,10 @@ public:
 			{
 				if (enemy->IsEnemy(GEntityList->Player()) && GEntityList->Player()->IsValidTarget(enemy, R->Range()))
 				{
-					if (enemy->GetHealth() < GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotR))
+					if (enemy->GetHealth() < GDamage->GetSpellDamage(GEntityList->Player(), enemy, kSlotR)
+						&& (GEntityList->Player()->GetPosition() - enemy->GetPosition()).Length() > KSRMinRange->GetFloat()
+						&& (GEntityList->Player()->GetPosition() - enemy->GetPosition()).Length() < KSRMaxRange->GetFloat())
 					{
-						//Vec3 pos;
-						//GPrediction->SimulateMissile(GEntityList->Player()->GetPosition(), enemy, R->Speed(), R->Radius(), R->Range(), R->GetDelay(), 0, pos);
-
 						R->CastOnTarget(enemy, kHitChanceHigh);
 					}
 				}
@@ -116,13 +115,15 @@ public:
 		{
 			for (auto enemy : GEntityList->GetAllHeros(false, true))
 			{
-				if ((GEntityList->Player()->GetPosition() - enemy->GetPosition()).Length() < enemy->AttackRange()) E->CastOnTarget(enemy, kHitChanceHigh);
+				if ((GEntityList->Player()->GetPosition() - enemy->GetPosition()).Length() < enemy->AttackRange())
+					E->CastOnTarget(enemy, kHitChanceHigh);
 			}
 		}
 	}
 
 	static void Harass()
 	{
+		if (GEntityList->Player()->ManaPercent() < HarassMana->GetFloat()) return;
 		auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, W->Range());
 
 		if (target == nullptr) return;

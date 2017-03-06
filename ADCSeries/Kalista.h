@@ -80,7 +80,7 @@ public:
 		{
 			for (auto enemy : GEntityList->GetAllHeros(false, true))
 			{
-				if (enemy->IsEnemy(GEntityList->Player()) && (GEntityList->Player()->GetPosition() - enemy->GetPosition()).Length() <= E->Range())
+				if ((GEntityList->Player()->GetPosition() - enemy->GetPosition()).Length() <= E->Range())
 				{
 					if (enemy->HasBuff("kalistaexpungemarker") && !enemy->IsDead())
 					{

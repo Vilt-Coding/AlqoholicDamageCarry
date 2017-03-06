@@ -20,6 +20,7 @@ public:
 		DrawingsMenu = MainMenu->AddMenu("Drawings");
 
 		ComboQ = QMenu->CheckBox("Use Q", true);
+		QEnemies = QMenu->CheckBox("Don't Q into 2 or more enemies", true);
 		MiscQ = QMenu->CheckBox("Dont Q while invis", true);
 		MiscQHealth = QMenu->AddFloat("Only Under X HP%", 0, 100, 30);
 
@@ -124,7 +125,7 @@ public:
 		return GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, GEntityList->Player()->AttackRange());
 	}
 
-	int GetEnemiesInRange(float range)
+	static int GetEnemiesInRange(float range, Vec3 from = Vec3(GEntityList->Player()->GetPosition().x, GEntityList->Player()->GetPosition().y, GEntityList->Player()->GetPosition().z))
 	{
 		auto enemies = GEntityList->GetAllHeros(false, true);
 		auto enemiesInRange = 0;
@@ -143,7 +144,7 @@ public:
 		return enemiesInRange;
 	}
 
-	void AntiGapclose(GapCloserSpell const& Args)
+	static void AntiGapclose(GapCloserSpell const& Args)
 	{
 		if (Args.Sender != GEntityList->Player()
 			&& Args.Sender->IsEnemy(GEntityList->Player())
@@ -161,6 +162,8 @@ public:
 		{
 			if (ComboQ->Enabled() && Q->IsReady() && GOrbwalking->GetOrbwalkingMode() == kModeCombo)
 			{
+				if (QEnemies->Enabled() && GetEnemiesInRange(Q->Range() * 2, GGame->CursorPosition()) >= 2) return; // Brosciencey as fuck - Don't judge please.
+
 				Q->CastOnPosition(GGame->CursorPosition());
 			}
 		}
