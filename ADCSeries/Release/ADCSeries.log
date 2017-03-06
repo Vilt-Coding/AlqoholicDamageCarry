@@ -2,6 +2,7 @@
 c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Vayne.h(104): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
 c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(229): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 c:\users\billy\documents\github\alqoholicdamagecarry\adcseries\Jhin.h(230): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  PluginSDK.cpp
      Creating library C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.lib and object C:\Users\billy\Documents\GitHub\AlqoholicDamageCarry\Release\AlqoholicDamageCarry AIO.exp
   Generating code
   All 313 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.

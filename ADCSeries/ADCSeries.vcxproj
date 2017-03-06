@@ -151,6 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ADCSeries.cpp" />
+    <ClCompile Include="PluginSDK.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseChampion.h" />
@@ -158,14 +159,13 @@
     <ClInclude Include="Jhin.h" />
     <ClInclude Include="Jinx.h" />
     <ClInclude Include="Kalista.h" />
+    <ClInclude Include="LPPConstants.h" />
     <ClInclude Include="Lucian.h" />
+    <ClInclude Include="PluginData.h" />
+    <ClInclude Include="PluginSDK.h" />
     <ClInclude Include="Varus.h" />
     <ClInclude Include="Vayne.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SDK\SDK.vcxproj">
-      <Project>{37e5d5b9-14c5-4182-81df-c11f5df0f1b0}</Project>
-    </ProjectReference>
+    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
