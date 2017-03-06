@@ -93,11 +93,14 @@ public:
 
 				if (flDistance > E->Range()) { return; }
 
-				auto checkDistance = PushDistance->GetFloat() / 40;
+				auto pushDistance = PushDistance->GetFloat();
+				float forty = 40;
+				auto targetPosition = enemy->ServerPosition();
+				auto checkDistance = pushDistance / forty;
 				auto pushDirection = (targetPosition - GEntityList->Player()->ServerPosition()).VectorNormalize();
 				for (auto i = 0; i < 40; i++)
 				{
-					auto finalPos = enemy->ServerPosition() + (PushDistance->GetFloat() * checkDistance * i);
+					auto finalPos = targetPosition + (pushDirection * checkDistance * i);
 					if (GPrediction->IsPointWall(finalPos))
 					{
 						E->CastOnUnit(enemy);
