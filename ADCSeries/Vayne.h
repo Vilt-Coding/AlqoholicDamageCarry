@@ -20,9 +20,9 @@ public:
 		DrawingsMenu = MainMenu->AddMenu("Drawings");
 
 		ComboQ = QMenu->CheckBox("Use Q", true);
-		QEnemies = QMenu->CheckBox("Don't Q into 2 or more enemies", true);
+		QEnemies = QMenu->CheckBox("Dont Q into 2 or more enemies", true);
 		MiscQ = QMenu->CheckBox("Dont Q while invis", true);
-		MiscQHealth = QMenu->AddFloat("Only Under X HP%", 0, 100, 30);
+		MiscQHealth = QMenu->AddFloat("^ Only Under X HP%", 0, 100, 30);
 
 		FocusW = WMenu->CheckBox("Focus W Stacks", true);
 
